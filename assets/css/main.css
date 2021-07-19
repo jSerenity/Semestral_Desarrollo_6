@@ -778,7 +778,7 @@ body.landing.is-preload:after {
 
 @media screen and (max-width: 1280px) {
   .container {
-    width: 90%;
+    width: 100%;
     max-width: 100%;
   }
 }
@@ -3267,7 +3267,7 @@ input[type="button"]:disabled,
   height: 101%;
   padding: 6em 3em;
   top: 0;
-  width: 28em;
+  width: 60em;
 }
 
 .spotlight.left .content {
@@ -3654,7 +3654,7 @@ body.landing #page-wrapper {
   max-width: 95%;
   padding: 6em;
   position: relative;
-  text-align: right;
+  text-align: center;
   vertical-align: middle;
   z-index: 1;
 }
@@ -3678,7 +3678,6 @@ body.landing #page-wrapper {
   border-radius: 100%;
   display: inline-block;
   height: 18em;
-  margin-left: 3em;
   vertical-align: middle;
   width: 18em;
 }
