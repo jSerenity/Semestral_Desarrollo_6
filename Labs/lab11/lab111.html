@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+
+    <noscript
+      ><link rel="stylesheet" href="../../assets/css/noscript.css"
+    /></noscript>
+    <script src="https://codemirror.net/lib/codemirror.js"></script>
+
+    <script src="https://codemirror.net/mode/xml/xml.js"></script>
+    <!-- mode for xml,html -->
+    <script src="https://codemirror.net/mode/css/css.js"></script>
+    <!-- mode for css -->
+    <link rel="stylesheet" href="../../assets/css/main.css" />
+    <script src="https://codemirror.net/addon/edit/matchbrackets.js"></script>
+    <script src="https://codemirror.net/mode/htmlmixed/htmlmixed.js"></script>
+    <link href="https://codemirror.net/lib/codemirror.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./lab11.css" />
+  </head>
+  <body class="is-preload landing">
+    <div id="page-wrapper">
+      <!-- Banner -->
+      <div id="header"></div>
+      <section id="banner">
+        <div class="content">
+          <header>
+            <h3>Parte 1 del laboratorio 11.1</h3>
+            <a href="#one" class="scrolly"
+              ><span class="image"
+                ><img
+                  href="#one"
+                  src="../../images/esferas/esfera-1.png"
+                  alt=""
+                /> </span
+            ></a>
+          </header>
+        </div>
+        <a href="#one" class="goto-next scrolly">Next</a>
+      </section>
+      <!-- One -->
+      <section id="one" class="wrapper style1 fade-up">
+        <div class="container">
+          <header class="major">
+            <h2>Laboratorio # 11</h2>
+            <p>Objetivo: Introducción a la etiqueta Canvas de HTML5 (en 3 dimensiones)</p>
+          </header>
+          <div class="box alt">
+            <div class="row gtr-uniform">
+              <section class="col-12 col-6-medium col-12-xsmall">
+                <label class="control-label">HTML:</label>
+                <textarea class="code" id="editor-html">
+                  <html>
+                    <head>
+                    <title><Canvas></title>
+                    </head>
+                    <body>
+                        <canvas id="glCanvas" width="640" height="480"></canvas>
+                    </body>
+                    <script>
+                    function main() {
+                        const canvas = document.querySelector("#glCanvas");
+                        const gl = canvas.getContext("webgl");
+                        
+                        if(gl === null) {
+                            alert("No se puede inicializar WebGL. Es posible que su navegador o máquina no lo admita");
+                            return;
+                        }
+
+                        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                        gl.clear(gl.COLOR_BUFFER_BIT);
+
+
+                    }
+                    window.onload = main;
+                    </script>
+                    </html>
+                  </textarea>
+
+                <label class="control-label">CSS</label>
+                <textarea class="code" id="editor-css"> </textarea>
+                <br />
+                <label class="control-label">RESULTADO:</label>
+                <iframe id="preview"></iframe>
+              </section>
+            </div>
+          </div>
+          <footer class="major">
+            <ul class="actions special">
+              <li><a href="#banner" class="button scrolly">top</a></li>
+            </ul>
+            
+          </footer>
+        </div>
+      </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/jquery.scrolly.min.js"></script>
+    <script src="../../assets/js/jquery.dropotron.min.js"></script>
+    <script src="../../assets/js/jquery.scrollex.min.js"></script>
+    <script src="../../assets/js/browser.min.js"></script>
+    <script src="../../assets/js/breakpoints.min.js"></script>
+    <script src="../../assets/js/util.js"></script>
+    <script src="../../assets/js/main.js"></script>
+    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+    <script>
+      let timeoutDelay = 300;
+      let onChangeDelay;
+      var editorsSettings = {
+        lineWrapping: true,
+        lint: true,
+        lineNumbers: true,
+        foldGutter: true,
+        gutters: [
+          "CodeMirror-lint-markers",
+          "CodeMirror-linenumbers",
+          "CodeMirror-foldgutter",
+        ],
+        styleActiveLine: true,
+        tabSize: 2,
+        indentUnit: 2,
+        matchBrackets: true,
+        // viewportMargin: Infinity, // with css .CodeMirror {height:auto}, editor's height adapts to content.
+        // keyMap: "sublime", // requires specific .js
+        // theme: 'monokai',  // requires specific .css
+        extraKeys: {
+          "Ctrl-H": function () {
+            alert("This pad > ExtraKeys: [CTRL+H]");
+          },
+        },
+      };
+
+      // Initialize CodeMirror editor with a nice html5 canvas demo.
+      let editorCSS = CodeMirror.fromTextArea(
+        document.querySelector("#editor-css"),
+        {
+          mode: "text/html",
+          ...editorsSettings,
+        }
+      );
+      // Initialize CodeMirror editor with a nice html5 canvas demo.
+      let editorHTML = CodeMirror.fromTextArea(
+        document.querySelector("#editor-html"),
+        {
+          mode: "htmlmixed",
+          ...editorsSettings,
+        }
+      );
+
+      let updatePreview = function () {
+        let preview = document.querySelector("#preview");
+        let previewDocument =
+          preview.contentDocument || preview.contentWindow.document;
+        previewDocument.open();
+        previewDocument.write(editorHTML.getValue());
+        previewDocument.close();
+        previewDocument.querySelector("head").innerHTML =
+          "<style>" + editorCSS.getValue() + "</style>";
+      };
+
+      let editorOnChange = function () {
+        clearTimeout(timeoutDelay);
+        onChangeDelay = setTimeout(updatePreview, timeoutDelay);
+      };
+
+      editorCSS.on("change", editorOnChange);
+      editorHTML.on("change", editorOnChange);
+
+      // Initialize iframe result
+      setTimeout(updatePreview, timeoutDelay);
+    </script>
+  </body>
+</html>

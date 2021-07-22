@@ -1,0 +1,20 @@
+.CodeMirror {
+    width: 100%;
+    border: 1px solid black;
+    min-height: 100px;
+    height: auto;
+  }
+  
+  #preview {
+    margin-top: 20px;
+    margin-bottom: 100px;
+    width: 600px;
+    min-height: 500px;
+    background-color: #afa6a6;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  pre:not(.CodeMirror-line-like) {
+  }
+  
